@@ -1,0 +1,3 @@
+[submodule "TransformersSharp"]
+	path = TransformersSharp
+	url = https://github.com/thenewth/TransformersSharp.git
