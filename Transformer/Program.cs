@@ -1,14 +1,11 @@
-﻿using TransformersSharp;
+﻿using Microsoft.Extensions.AI;
+using TransformersSharp;
 
-var transformer = SentenceTransformer.FromModel("sentence-transformers/clip-ViT-B-32-multilingual-v1", trustRemoteCode: true);
-var sentences = new List<string>
-{
-    "The quick brown fox jumps over the lazy dog.",
-    "Transformers are amazing for natural language processing."
-};
-var embeddings = await transformer.GenerateAsync(sentences);
+var transformer_text = SentenceTransformer.FromModel("sentence-transformers/clip-ViT-B-32-multilingual-v1", trustRemoteCode: true);
+var transformer_iamge = SentenceTransformer.FromModel("clip-ViT-B-32", trustRemoteCode: true);
 
-foreach (var embedding in embeddings)
-{
-    Console.WriteLine($"Vector: {string.Join(", ", embedding.Vector.ToArray().Take(10))}...");
-}
+var text_embeddings = transformer_text.GenerateSentence("A dog in the snow");
+var image_embeddings = transformer_iamge.GenerateImage("https://images.unsplash.com/photo-1547494912-c69d3ad40e7f?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&w=640");
+
+Console.WriteLine($"Vector: {string.Join(", ", text_embeddings.ToArray().Take(10))}...");
+Console.WriteLine($"Vector: {string.Join(", ", image_embeddings.ToArray().Take(10))}...");
